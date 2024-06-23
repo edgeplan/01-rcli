@@ -1,5 +1,5 @@
 use clap::Parser;
-use rcli::{process_csv, Commands, Opts};
+use rcli::{process_csv, process_gen_pass, Commands, Opts};
 
 fn main() -> anyhow::Result<()> {
     unsafe { backtrace_on_stack_overflow::enable() };
@@ -13,6 +13,10 @@ fn main() -> anyhow::Result<()> {
                 format!("output.{}", opts.format)
             };
             process_csv(&opts.input, output, opts.format)?;
+        }
+        Commands::GeneratePassword(opts) => {
+            // println!("{:?}", opts);
+            process_gen_pass(opts)?;
         }
     }
     Ok(())
