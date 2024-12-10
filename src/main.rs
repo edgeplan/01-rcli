@@ -1,5 +1,5 @@
 use clap::Parser;
-use rcli::{process_csv, Command, Opts};
+use rcli::{gen_pass, process_csv, Command, Opts};
 
 fn main() -> anyhow::Result<()> {
     let opt = Opts::parse();
@@ -12,6 +12,15 @@ fn main() -> anyhow::Result<()> {
                 format!("output.{}", opts.format)
             };
             process_csv(&opts.input, &output, opts.format)?;
+        }
+        Command::GenPass(opts) => {
+            gen_pass(
+                opts.length,
+                opts.uppercase,
+                opts.lowercase,
+                opts.numbers,
+                opts.symbols,
+            )?;
         }
     }
 
