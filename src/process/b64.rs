@@ -7,8 +7,8 @@ use anyhow::Result;
 use base64::engine::general_purpose::{STANDARD, URL_SAFE_NO_PAD};
 pub fn process_encode(input: &str, format: Base64Format) -> Result<()> {
     let mut reader = get_reader(input)?;
-    let mut buf = Vec::new();
-    reader.read_to_end(&mut buf)?;
+    let mut buf = String::new();
+    reader.read_to_string(&mut buf)?;
     let encode = match format {
         Base64Format::Standard => STANDARD.encode(&buf),
         Base64Format::UrlSafe => URL_SAFE_NO_PAD.encode(&buf),
