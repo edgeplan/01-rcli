@@ -1,24 +1,8 @@
-use clap::{Parser, Subcommand};
-use std::fmt;
-
+use crate::cli::opts::verify_input_file;
 use anyhow::anyhow;
-use std::path::Path;
+use clap::Parser;
+use std::fmt;
 use std::str::FromStr;
-
-#[derive(Parser, Debug)]
-#[command(name = "rcli")]
-pub struct Opts {
-    #[command(subcommand)]
-    pub command: Command,
-}
-#[derive(Subcommand, Debug)]
-pub enum Command {
-    #[command(name = "csv", about = "convert CSV file")]
-    Csv(CsvOptions),
-    #[command(name = "genpass", about = "generate passphrase")]
-    GenPass(GenPassOpts),
-}
-
 #[derive(Debug, Clone, Copy)]
 pub enum OutputFormat {
     Json,
@@ -37,28 +21,6 @@ pub struct CsvOptions {
     pub header: bool,
     #[arg(short, long, value_parser=parse_format, default_value = "json")]
     pub format: OutputFormat,
-}
-
-#[derive(Parser, Debug)]
-pub struct GenPassOpts {
-    #[arg(short, long, default_value_t = 16)]
-    pub length: u8,
-    #[arg(long, default_value_t = true)]
-    pub uppercase: bool,
-    #[arg(long, default_value_t = true)]
-    pub lowercase: bool,
-    #[arg(long, default_value_t = true)]
-    pub numbers: bool,
-    #[arg(long, default_value_t = true)]
-    pub symbols: bool,
-}
-
-fn verify_input_file(filename: &str) -> Result<String, &'static str> {
-    if Path::new(filename).exists() {
-        Ok(filename.into())
-    } else {
-        Err("Input file not found")
-    }
 }
 
 fn parse_format(format: &str) -> Result<OutputFormat, anyhow::Error> {
