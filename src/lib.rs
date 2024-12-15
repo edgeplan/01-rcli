@@ -24,3 +24,8 @@ pub use process::gen_pass::gen_pass;
 pub use process::http_serve::process_http_serve;
 pub use process::text::{process_generate, process_text_sign, process_text_verify};
 pub use utils::get_reader;
+
+#[allow(async_fn_in_trait)]
+pub trait CmdExecutor {
+    async fn execute(self) -> anyhow::Result<()>;
+}

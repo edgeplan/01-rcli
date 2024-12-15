@@ -1,8 +1,10 @@
 use crate::cli::opts::verify_file;
+use crate::{process_csv, CmdExecutor};
 use anyhow::anyhow;
 use clap::Parser;
 use std::fmt;
 use std::str::FromStr;
+
 #[derive(Debug, Clone, Copy)]
 pub enum OutputFormat {
     Json,
@@ -21,6 +23,18 @@ pub struct CsvOptions {
     pub header: bool,
     #[arg(short, long, value_parser=parse_format, default_value = "json")]
     pub format: OutputFormat,
+}
+
+impl CmdExecutor for CsvOptions {
+    async fn execute(self) -> anyhow::Result<()> {
+        let output = if let Some(output) = self.output {
+            output
+        } else {
+            format!("{}", self.format)
+        };
+        process_csv(&self.input, &output, self.format)?;
+        Ok(())
+    }
 }
 
 fn parse_format(format: &str) -> Result<OutputFormat, anyhow::Error> {
