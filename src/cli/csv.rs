@@ -1,4 +1,4 @@
-use crate::cli::opts::verify_input_file;
+use crate::cli::opts::verify_file;
 use anyhow::anyhow;
 use clap::Parser;
 use std::fmt;
@@ -11,7 +11,7 @@ pub enum OutputFormat {
 
 #[derive(Parser, Debug)]
 pub struct CsvOptions {
-    #[arg(short, long, value_parser=verify_input_file)]
+    #[arg(short, long, value_parser=verify_file)]
     pub input: String,
     #[arg(short, long)] // "out_put.json.into()"
     pub output: Option<String>,
