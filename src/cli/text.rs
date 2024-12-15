@@ -1,11 +1,13 @@
 use crate::cli::opts::{verify_file, verify_path};
 use crate::{process_generate, process_text_sign, process_text_verify, CmdExecutor};
 use clap::Parser;
+use enum_dispatch::enum_dispatch;
 use std::fmt;
 use std::path::PathBuf;
 use std::str::FromStr;
 
 #[derive(Parser, Debug)]
+#[enum_dispatch(CmdExecutor)]
 pub enum TextSubCommand {
     #[command(about = "Sign a message with a private key")]
     Sign(SignOpts),
@@ -106,13 +108,13 @@ impl CmdExecutor for SignOpts {
         Ok(())
     }
 }
-impl CmdExecutor for TextSubCommand {
-    async fn execute(self) -> anyhow::Result<()> {
-        match self {
-            TextSubCommand::Sign(opts) => opts.execute().await?,
-            TextSubCommand::Verify(opts) => opts.execute().await?,
-            TextSubCommand::Generate(opts) => opts.execute().await?,
-        }
-        Ok(())
-    }
-}
+// impl CmdExecutor for TextSubCommand {
+//     async fn execute(self) -> anyhow::Result<()> {
+//         match self {
+//             TextSubCommand::Sign(opts) => opts.execute().await?,
+//             TextSubCommand::Verify(opts) => opts.execute().await?,
+//             TextSubCommand::Generate(opts) => opts.execute().await?,
+//         }
+//         Ok(())
+//     }
+// }
