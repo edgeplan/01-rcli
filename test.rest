@@ -1,5 +1,10 @@
 ### test index page
 GET http://localhost:8080/Cargo.toml
 
-### test static file
+### test static not exists
 GET http://localhost:8080/ab.txt
+
+### test static file with tower http serve
+
+GET localhost:8080/tower/fixtures
+Range: bytes=0-100
