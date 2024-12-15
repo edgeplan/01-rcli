@@ -1,0 +1,5 @@
+### test index page
+GET http://localhost:8080/Cargo.toml
+
+### test static file
+GET http://localhost:8080/ab.txt

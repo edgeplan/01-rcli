@@ -2,6 +2,7 @@ use crate::cli::base64::Base64SubCommand;
 use crate::cli::csv::CsvOptions;
 use crate::cli::genpass::GenPassOpts;
 use crate::cli::text::TextSubCommand;
+use crate::HttpSubCommand;
 use clap::{Parser, Subcommand};
 use std::path::{Path, PathBuf};
 
@@ -21,6 +22,8 @@ pub enum Command {
     Base64(Base64SubCommand),
     #[command(subcommand, about = "sign a passphrase and verify it")]
     Text(TextSubCommand),
+    #[command(subcommand, about = "http server")]
+    Http(HttpSubCommand),
 }
 
 pub fn verify_file(filename: &str) -> Result<String, &'static str> {
